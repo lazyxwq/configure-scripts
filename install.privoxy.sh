@@ -6,19 +6,20 @@ sudo apt-get install privoxy
 
 #add /etc/privoxy/config
 
-#forward-socks4 / 127.0.0.1:1080
-#forward-socks4a / 127.0.0.1:1080
-#forward-socks5 / 127.0.0.1:1080
-
+echo -e '\n
+forward-socks4    /    127.0.0.1:1080    .    # socks v4
+forward-socks4a    /    127.0.0.1:1080    .    # socks v4, use remote dns
+forward-socks5    /    127.0.0.1:1080    .    # socks v5
+' >> /etc/privoxy/config
 #add to .bashrc
-function proxy_off(){
+echo -e '\n
+function proxy_off() {
     unset http_proxy
     unset https_proxy
     unset ftp_proxy
     unset rsync_proxy
     echo -e "已关闭代理"
 }
-
 function proxy_on() {
     echo "请先用sslocal开启socks5代理..."
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
@@ -33,4 +34,4 @@ function proxy_on() {
     export RSYNC_PROXY=$http_proxy
     echo -e "已开启代理"
 }
-
+' >> ~/.bashrc
